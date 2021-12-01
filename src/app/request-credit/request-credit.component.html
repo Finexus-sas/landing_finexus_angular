@@ -1,0 +1,667 @@
+<div class="container-fluid">
+  <div class="row" *ngIf="statusSimulation < 6 && statusSimulation > 0">
+    <div class="col-md-1 col-sm-12">
+      <img
+        src="/assets/back.png"
+        style="cursor: pointer; transform: translateY(-10px) translateX(-14px);"
+        (click)="backPage()"
+      />
+    </div>
+    <div class="col-md-6">
+      <h1>Construyamos juntos tu nuevo crédito</h1>
+      <p>
+        Tranquilo, te vas a demorar menos de 10 minutos en solicitar tu crédito.
+      </p>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="statusSimulation == 1">
+    <div class="col-md-6 offset-md-1">
+      <span>
+        *Todos los campos son requeridos.
+      </span>
+      <p style="margin-top: 1em;">
+        Escoge a continuación el tipo de crédito en el que estás interesado.
+      </p>
+    </div>
+    <div class="col-md-7 offset-md-1">
+      <div class="types_credits">
+        <div
+          class="type_credit"
+          *ngFor="let item of typeOfCredit"
+          [ngClass]="{ selected: types_credits == item.id }"
+          (click)="types_credits = item.id"
+        >
+          {{ item.descripcion }}
+        </div>
+        <!-- <div class="type_credit" [ngClass]="{'selected': types_credits=='compra_cartera'}" (click)="types_credits='compra_cartera'">
+          Compra de cartera
+        </div>
+        <div class="type_credit" [ngClass]="{'selected': types_credits=='retanqueo'}" (click)="types_credits='retanqueo'">
+          Retanqueo
+        </div> -->
+      </div>
+    </div>
+    <div class="col-md-7 offset-md-1">
+      <form [formGroup]="formBasicInfo">
+        <div class="form-group">
+          <select
+            type="text"
+            class="form-control"
+            aria-describedby="emailHelp"
+            placeholder="Tipo de identificación"
+            formControlName="tipo_identificacion"
+            name="tipo_identificacion"
+          >
+            >
+            <option value="">Tipo de identificación</option>
+            <option [value]="item.id" *ngFor="let item of typeId">{{
+              item.descripcion
+            }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Numero de Identificacion"
+            formControlName="identificacion"
+            name="identificacion"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Primer Nombre"
+            formControlName="primer_nombre"
+            name="primer_nombre"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Primer Apellido"
+            formControlName="primer_apellido"
+            name="primer_apellido"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Fecha de nacimiento"
+            formControlName="fecha_nacimiento"
+            name="fecha_nacimiento"
+            readonly
+            ngbDatepicker
+            #d2="ngbDatepicker"
+            (click)="d2.toggle()"
+            [minDate]="{ year: 1950, month: 1, day: 1 }"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Fecha de expedición"
+            formControlName="fecha_expedicion"
+            name="fecha_expedicion"
+            readonly
+            ngbDatepicker
+            #d1="ngbDatepicker"
+            (click)="d1.toggle()"
+            [minDate]="{ year: 1950, month: 1, day: 1 }"
+          />
+        </div>
+
+        <div class="form-group">
+          <select class="form-control" formControlName="genero" name="genero">
+            >
+            <option value="">Género</option>
+            <option [value]="item.id" *ngFor="let item of gender">{{
+              item.descripcion
+            }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          
+          <div class="content-input" style="display: flex; justify-content: space-between;">
+            <input type="email" placeholder="Ingrese email" formControlName="email" style="width: 50%;">
+            <select name="domain" class="emails" formControlName="domain" style="background: #dadada;
+            margin-left: -20px;
+            border-radius: 0 30px 30px 0;
+            padding-left: 10px; width: calc(50% - 20px)">
+              <option value="">Tipo de correo</option>
+              <option [value]="item" *ngFor="let item of emails">{{item}}</option>
+            </select>
+          </div>
+          <div class="content-labels" style="padding-left: 20px;">
+            <!-- <label for="">Email</label> -->
+            <label style="color: red;"
+              *ngIf="((formBasicInfo.controls.email.dirty || formBasicInfo.controls.email.touched) && formBasicInfo.controls.email.invalid)">
+              Email invalido, no digitar el @ o caracteres especiales
+            </label>
+
+            <label style="color: red;"
+              *ngIf="((formBasicInfo.controls.domain.dirty || formBasicInfo.controls.domain.touched || formBasicInfo.controls.email.dirty || formBasicInfo.controls.email.touched) && formBasicInfo.controls.domain.invalid)">
+              Tipo de correo no seleccionado
+            </label>
+
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Celular"
+            formControlName="celular"
+            name="celular"
+          />
+        </div>
+      </form>
+    </div>
+    <div class="col-md-7 offset-md-1 col-buttons-bottom content-buttos-bottom">
+      <div class="row">
+        <div class="col-md-6">
+          <!-- [disabled]="!formBasicInfo.valid" -->
+          <button
+            class="btn principal"
+            (click)="saveBasicData()"
+            
+          >
+            Siguiente etapa
+          </button>
+        </div>
+        <!-- <div class="col-md-6">
+            <button class="btn transparent">Ya no quiero cumplir mi sueño</button>
+          </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="statusSimulation == 2">
+    <div class="col-md-6 offset-md-1">
+      <form [formGroup]="formFinancial">
+        <div class="form-group">
+          <select
+            class="form-control"
+            formControlName="id_pagaduria"
+            name="id_pagaduria"
+            (change)="getTypeClient()"
+          >
+            <option [value]="null">Pagaduria</option>
+            <option [value]="item.id" *ngFor="let item of pagaduries">{{
+              item.descripcion
+            }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <select
+            class="form-control"
+            name="id_tipo_cliente"
+            formControlName="id_tipo_cliente"
+            (change)="getTypeOfContracts()"
+          >
+            <option value="">Tipo de empleado</option>
+            <option [value]="item.id" *ngFor="let item of typeClients">{{
+              item.descripcion
+            }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <select class="form-control" formControlName="id_tipo_contrato">
+            <option value="">Tipo de contrato</option>
+            <option [value]="item.id" *ngFor="let item of typeOfContracts">{{
+              item.descripcion
+            }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <input
+            class="form-control"
+            name="fecha_inicio_labores"
+            formControlName="fecha_inicio_labores"
+            placeholder="Fecha inicio de labores"
+            readonly
+            ngbDatepicker
+            #d3="ngbDatepicker"
+            (click)="d3.toggle()"
+          />
+        </div>
+
+        <div class="form-group" style="margin-top: 4em;">
+          <input
+            class="form-control"
+            type="text"
+            name="salario_basico"
+            formControlName="salario_basico"
+            placeholder="Salario basico"
+            (keyup)="currency('salario_basico')"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            class="form-control"
+            type="text"
+            name="otros_ingresos"
+            formControlName="otros_ingresos"
+            placeholder="Otros ingresos"
+            (keyup)="currency('otros_ingresos')"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Descuentos por volante de nómina"
+            name="dto_volante_nomina"
+            formControlName="dto_volante_nomina"
+            (keyup)="currency('dto_volante_nomina')"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Compras en volante de nómina"
+            name="compra_volante_nomina"
+            formControlName="compra_volante_nomina"
+            (keyup)="currency('compra_volante_nomina')"
+          />
+        </div>
+      </form>
+    </div>
+    <div class="col-md-4 col-result-simulation">
+      <h1 [ngClass]="{ 'title-aniamted': statusSimulation == 2 }">
+        ¡Se acerca, se acerca! Solo te faltan unos pocos clics.
+      </h1>
+    </div>
+
+    <div class="col-md-11 offset-md-1 content-buttos-bottom">
+      <div class="row">
+        <div class="col-md-3">
+          <button
+            class="btn principal"
+            (click)="getHistoryCredit()"
+          
+          >
+            Siguiente etapa
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="row col-result-simulation request"
+    *ngIf="statusSimulation == 3 && policy"
+  >
+    <div class="col-md-11 offset-md-1" style="margin-bottom: 2em;">
+      <h1 class="title-big" style="font-weight: 600;">Te prestaríamos</h1>
+      <h1 class="title-big">
+        {{ policy.valor_total_credito | currency: "USD":true:"1.0-0" }}
+      </h1>
+    </div>
+    <!-- <div class="col-md-11 offset-md-1" style="margin-bottom: 2em;">
+      <h2>Te podemos prestar máximo</h2>
+      <h2>{{ policy.valor_total_credito | currency: "USD":true:"1.0-0" }}</h2>
+    </div> -->
+    <div class="col-md-11 offset-md-1" style="margin-bottom: 2em;">
+      <h1 style="font-weight: 600;">Valor de la cuota mensual</h1>
+      <h1 style="font-weight: 700; font-size: 30px;">
+        {{ cuota | currency: "USD":true:"1.0-0" }}
+      </h1>
+    </div>
+    <div class="tasa-and-plazo-content col-md-11 offset-md-1">
+      <div class="tasa-and-plazo">
+        <h1 style="font-weight: 500;">Tasa</h1>
+        <h1 style="font-weight: 600;">{{ tasaMayor }}%</h1>
+      </div>
+      <div class="tasa-and-plazo">
+        <h1 style="font-weight: 500;">Plazo</h1>
+        <h1 style="font-weight: 600;">{{ plazo }} meses</h1>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="row"
+    *ngIf="statusSimulation == 3 && policy"
+    style="margin-top: 2em;"
+  >
+    <div class="col-md-6 offset-md-1">
+      <div class="content-select-especial">
+        <div class="form-group">
+          <select
+            class="form-control"
+            [(ngModel)]="plazo"
+            (change)="simulateV3()"
+          >
+            <option [value]="">Ajustar meses de plazo</option>
+            <option [value]="item" *ngFor="let item of months">{{
+              item
+            }}</option>
+          </select>
+        </div>
+        <div class="value-inpue-special">
+          <span>Cuotas recomendadas</span>
+          <span>{{ plazo }} meses</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-7 offset-md-1">
+      <div class="content-select-especial">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="cuota"
+            (change)="simulateV3()"
+            (keyup)="simulateV3()"
+          />
+        </div>
+        <div class="value-inpue-special">
+          <span>Cuota mensual maxima</span>
+          <span>{{
+            policy.disponible_cuota | currency: "USD":true:"1.0-0"
+          }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-11 offset-md-1 content-buttos-bottom">
+      <div class="row">
+        <div class="col-md-4">
+          <span *ngIf="!isCuotaValid" style="color: red;">El valor de la cuota mensual no debe superar al maximo permitido</span>
+          <button class="btn principal" (click)="saveSimulation()" [disabled]="!isCuotaValid">
+            Siguiente etapa
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="statusSimulation == 4">
+    <div class="col-md-5 offset-md-1">
+      <div class="compra-cartera">
+        <h1>Compra de cartera</h1>
+
+        <ul class="list-compras">
+          <li *ngFor="let item of entitysMora">
+            <div>
+              <label class="container-check">
+                <input
+                  type="checkbox"
+                  checked="checked"
+                  [disabled]="item.check"
+                />
+                <span class="checkmark"></span>
+              </label>
+              <span>
+                {{ item.entidad }}
+              </span>
+            </div>
+
+            <span class="value-compra">
+              {{ item.saldo_actual | currency: "USD":true:"1.0-0" }}
+            </span>
+          </li>
+
+          <li *ngFor="let item of entitysAdded">
+            <div>
+              <label class="container-check">
+                <input
+                  type="checkbox"
+                  checked="checked"
+                  [disabled]="item.check"
+                />
+                <span class="checkmark"></span>
+              </label>
+              <span>
+                {{ item.entidad }}
+              </span>
+            </div>
+
+            <span class="value-compra">
+              {{ item.saldo_actual | currency: "USD":true:"1.0-0" }}
+            </span>
+          </li>
+        </ul>
+
+        <div
+          class="button-add"
+          (click)="showAddItem = !showAddItem; showHelp = false"
+        >
+          <div class="circle-add">
+            <span>+</span>
+          </div>
+
+          <span>
+            Agregar nueva deuda a saldar
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-6" *ngIf="showHelp">
+      <div class="compra-cartera help" >
+        <h1>
+          Preguntas frecuentes
+        </h1>
+        <span style="position: absolute;     top: 40px; right: 48px; cursor: pointer;" (click)="showHelp = false;">
+          <img src="/assets/Icono Cerrar Menu.svg" alt="">
+        </span>
+
+        <ul class="questions-list">
+          <li *ngFor="let item of helpList">
+            <span
+              (click)="item.expand = !item.expand"
+              [ngClass]="{ selected: item.expand }"
+            >
+              {{ item.title }}
+            </span>
+            <p *ngIf="item.expand">
+              {{ item.text }}
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6" *ngIf="showAddItem">
+      <div class="compra-cartera help">
+        <h1>
+          Información de la deuda a saldar
+        </h1>
+        <span style="position: absolute;     top: 40px; right: 48px; cursor: pointer;" (click)="showAddItem = false;">
+          <img src="/assets/Icono Cerrar Menu.svg" alt="">
+        </span>
+        <form [formGroup]="formAddWallet">
+          <div class="form-group">
+            <select class="form-control" formControlName="numero" name="numero">
+              <option [value]="">Nombre de entidad </option>
+              <option [value]="item.id" *ngFor="let item of entitys">{{
+                item.descripcion
+              }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <input
+              class="form-control"
+              formControlName="saldo_actual"
+              name="saldo_actual"
+              placeholder="Valor de la deuda"
+              (keyup)="currency('saldo_actual', 'formAddWallet')"
+            />
+          </div>
+          <!-- <div class="form-group">
+            <input
+              class="form-control"
+              id="nombre"
+              aria-describedby="emailHelp"
+              placeholder="Valor de la cuota"
+            />
+          </div> -->
+          <button class="btn principal" (click)="addWallet()">
+            Saldar esta deuda
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-11 offset-md-1 content-buttos-bottom">
+      <div class="row">
+        <div class="col-md-6" style="display: flex; align-items: center;">
+          <button class="btn principal" (click)="saveWallets()">
+            Siguiente etapa
+          </button>
+          <button
+            class="btn transparent transparent-shadow"
+            (click)="showHelp = !showHelp; showAddItem = false"
+          >
+            <div class="circle-question">
+              ?
+            </div>
+            Preguntas
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="statusSimulation == 5">
+    <div class="col-md-5 offset-md-1">
+      <div class="compra-cartera">
+        <h1>Adjunta tus documentos</h1>
+
+        <ul class="list-compras">
+          <li *ngFor="let item of files">
+            <div>
+              <img src="/assets/not.png" *ngIf="!item.load" />
+              <img src="/assets/ok.png" *ngIf="item.load" />
+              <span>
+                {{ item.descripcion }}
+              </span>
+            </div>
+
+            <span class="add-file" (click)="openFile('file' + item.id_archivo)">
+              + Cargar
+            </span>
+            <input
+              type="file"
+              [id]="'file' + item.id_archivo"
+              style="display: none;"
+              (change)="fileChange($event, item.id_archivo)"
+              accept="image/x-png,image/gif,image/jpeg/pdf"
+            />
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-11 offset-md-1 content-buttos-bottom">
+      <div class="row">
+        <div class="col-md-7" style="display: flex; align-items: center;">
+          <button
+            class="btn principal"
+            (click)="statusSimulation = 6"
+            style="font-size: 0.9rem;"
+          >
+            Enviar documentos cargados
+          </button>
+          <!-- <button
+            class="btn transparent transparent-shadow"
+            (click)="showHelp = !showHelp; showAddItem = false"
+          >
+            <div class="circle-question">
+              ?
+            </div>
+            Preguntas
+          </button> -->
+        </div>
+
+        <div
+          class="col-md-7"
+          style="display: flex; align-items: center;"
+          style="margin-top: 1em;"
+        >
+          <button class="btn transparent" (click)="masTarde()">
+            Dejar para más tarde
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="statusSimulation == 6">
+    <h1 class="title-super-big">
+      ¡Excelente, aquí se comienza a cumplir tu sueño!
+    </h1>
+
+    <p class="text-info-success">
+      La solicitud de tu crédito ha sido enviada a estudio. Pronto uno de
+      nuestros asesores te llamará.
+    </p>
+    <button class="finexus-btn btn-simulate-credit" (click)="goToFamily()">
+      ¿Qué puedo lograr con mi crédito?
+    </button>
+
+    <p
+      style="
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-top: 2em;
+        color: #999999;
+        font-weight: 600;
+        cursor: pointer;
+      "
+      (click)="goToHome()"
+    >
+      Quiero volver a inicio
+    </p>
+  </div>
+
+  <div class="row" *ngIf="statusSimulation == -1">
+    <h1 class="title-super-big">
+      Lo sentimos, pero aquí no se acaban tus sueños
+    </h1>
+
+    <p class="text-info-success">
+      Tu crédito no pudo ser aprobado pero uno de nuestros asesores se
+      contactará contigo para ayudarte a cumplir tu sueño.
+    </p>
+    <button class="finexus-btn btn-simulate-credit" (click)="goToContact()">
+      Quiero programar la llamada
+    </button>
+  </div>
+
+
+  <div class="row" *ngIf="statusSimulation == 7">
+    <h1 class="title-super-big">
+      Vamos a proceder a realizar la validacion de identidad, si estas desde un computador es necesario el uso de una webcam
+    </h1>
+
+    <p class="text-info-success">
+      Se abrira una nueva ventana para realizar este proceso, una vez terminado, regresa a esta ventana para continuar
+    </p>
+    <button class="finexus-btn btn-simulate-credit" (click)="validateLastSuccessADO()">
+      Validar identidad
+    </button>
+  </div>
+</div>

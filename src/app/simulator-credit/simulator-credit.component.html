@@ -1,0 +1,317 @@
+<div
+  class="container-fluid container-simulator"
+  id="container-fluid"
+  [ngClass]="{ 'showing-terms': showTerms }"
+>
+  <div class="row" style="margin-bottom: 1em;">
+    <div class="col-lg-1 col-sm-1">
+      <img
+        src="/assets/back.png"
+        style="cursor: pointer; transform: translateY(-10px) translateX(-14px);"
+        (click)="backPage()"
+      />
+    </div>
+    <div class="col-lg-6 col-sm-10">
+      <h1>Simulemos tu futuro crédito</h1>
+      <p>
+        Sueños sin complicaciones es lo que nosotros hacemos posible. Comencemos
+        con lo más fácil y rápido, tus datos personales.
+      </p>
+
+      <span>
+        *Todos los campos son requeridos.
+      </span>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="statusSimulation == 1">
+    <div class="col-lg-6 offset-lg-1 col-sm-10 offset-sm-1">
+      <form [formGroup]="formLead">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            id="nombre"
+            placeholder="Nombre"
+            formControlName="nombre"
+          />
+        </div>
+        <div class="form-group">
+          
+          <div class="content-input" style="display: flex; justify-content: space-between;">
+            <input type="email" placeholder="Ingrese email" formControlName="email" style="width: 50%;">
+            <select name="domain" class="emails" formControlName="domain" style="background: #dadada;
+            margin-left: -20px;
+            border-radius: 0 30px 30px 0;
+            padding-left: 10px; width: calc(50% - 20px)">
+              <option value="">Tipo de correo</option>
+              <option [value]="item" *ngFor="let item of emails">{{item}}</option>
+            </select>
+          </div>
+          <div class="content-labels" style="padding-left: 20px;">
+            <!-- <label for="">Email</label> -->
+            <label style="color: red;"
+              *ngIf="((formLead.controls.email.dirty || formLead.controls.email.touched) && formLead.controls.email.invalid)">
+              Email invalido, no digitar el @ o caracteres especiales
+            </label>
+
+            <label style="color: red;"
+              *ngIf="((formLead.controls.domain.dirty || formLead.controls.domain.touched || formLead.controls.email.dirty || formLead.controls.email.touched) && formLead.controls.domain.invalid)">
+              Tipo de correo no seleccionado
+            </label>
+
+          </div>
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Numero de telefono"
+            formControlName="telefono"
+          />
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-7 offset-lg-1 col-sm-10 offset-sm-1 col-buttons-bottom">
+      <div class="row">
+        <div class="col-md-6">
+          <button
+            class="btn principal"
+            (click)="saveLead()"
+            
+          >
+            Siguiente etapa
+          </button>
+        </div>
+        <div class="col-md-6">
+          <button class="btn transparent">Ya no quiero cumplir mi sueño</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="row"
+    *ngIf="statusSimulation == 2 || statusSimulation == 3"
+    style="position: relative;"
+  >
+    <div class="terms_and_conditions" *ngIf="showTerms">
+      <div class="content-text-terms">
+        <div class="body-terms">
+          En cumplimiento de la normatividad legal vigente, nos permitimos informar y publicar los términos y condiciones mediante los cuales se prestarán los servicios contratados por los clientes: 
+
+1. ASPECTOS GENERALES DEL CREDITO DE LIBRANZA.                            
+Crédito de libranza: La libranza es la autorización que le da el asalariado o pensionado a su empleador o entidad pagadora, para que realice un descuento de su salario o pensión, con el objeto de que el mismo sea girado a favor de las entidades operadoras para atender los productos, bienes y servicios objeto de libranza. Por tanto, es un contrato de mutuo, instrumentado en un pagaré y una autorización de descuento por nómina para el pago de la cuota periódica respectiva, denominada “Libranza”. El acreedor del crédito de Libranza es FINEXUS S.A.S.
+
+Destinación y Monto: El crédito de libranza es de libre inversión. El cliente indicará a FINEXUS S.A.S. el(los) destinatario(os) del(os) desembolso(s). Así mismo, el cliente podrá hacer uso del crédito de libranza a través de los demás medios que FINEXUS S.A.S. implemente. FINEXUS S.A.S.  no es responsable por la negativa de los terceros destinatarios de los desembolsos de aceptar los mismos, o por los inconvenientes técnicos y operativos que puedan presentarse al momento del desembolso. El monto es determinado por FINEXUS S.A.S. de acuerdo con sus políticas de crédito.
+
+Forma de Pago: El principal medio de pago será el descuento por nómina autorizado en la Libranza. El valor del descuento periódico incluye las sumas correspondientes a capital, intereses remuneratorios o de mora respectivos, fianza, el valor de los seguros obligatorios y voluntarios y demás valores que resulten aplicables.
+
+Cuota Fija: Esta línea de crédito opera con una cuota fija.
+
+Periodo de Liquidación de Intereses: Los periodos de liquidación de los intereses del crédito serán mensuales y el empleador es quien determina los días de corte de nómina.
+
+Conocimiento del Cliente de Novedades y Cortes del Empleador: El cliente debe tener conocimiento de las fechas de aplicación de novedades y corte de nomina de su empresa, para que en los casos donde considere efectuar pagos totales o parciales, puede evitar pagos dobles y por consiguiente solicitud de reintegro de estos.
+
+Intereses Anticipados: Estos serán calculados entre la fecha de desembolso y el día de la generación de la primera cuota, que deberá ser pagada a los 30 días, estos intereses serán descontados en el desembolso y se hace con el propósito de poder iniciar los descuentos por nomina con cuotas fijas, a partir del mes siguiente de realizado el desembolso.
+
+Pagos anticipados: Los abonos extraordinarios totales o parciales, se aplicarán a capital reduciendo el pazo del crédito, siempre y cuando la obligación se encuentre al día y no se haya causado la siguiente cuota, en ese evento se cubrirá el monto de la cuota causada, y el valor restante, y si hay lugar a ello, se aplicara a capital. 
+
+Garantía: Las operaciones de crédito de libranza estarán garantizadas por la entidad Confianza Soluciones Financieras S.A.S. para respaldar la operación aprobada por FINEXUS S.A.S., por lo cual, una vez aceptado, el cliente deberá pagar el Valor de Servicio de Fianza de la garantía otorgada más el IVA, sin lugar a devolución o reintegro por prepago de los créditos. En caso de establecerse cualquier tipo de seguros como garantías del crédito, el cliente podrá aceptar los presentados por FINEXUS S.A.S. con los cuales este tenga convenio o alianzas. En todo caso, el cliente podrá escoger libremente su póliza con una compañía de seguros legalmente constituida en Colombia. 
+
+Terminación de Contrato: Una vez se haya saldado la totalidad de las obligaciones a cargo del cliente, es de su responsabilidad presentar el respectivo Paz y Salvo en la empresa pagadora de la nómina para que cese el descuento. El Acreedor no se hace responsable por descuentos posteriores al vencimiento del presente contrato.  
+
+2. TASAS DE INTERÉS.
+La tasa de interés remuneratoria efectiva anual es fija y corresponderá a la acordada por las partes al tiempo de otorgamiento del crédito, esta no podrá exceder la máxima legal vigente. La tasa de interés moratoria corresponderá a la máxima legal autorizada, vigente en el momento de causación y liquidación de esta.
+
+3. GESTIÓN DE COBRANZA. 
+En caso de mora se causarán intereses moratorios a la tasa máxima permitida por la Ley sobre el saldo de capital impagado. Así mismo, a partir de la mora se podrá agregar a la deuda y estarán a cargo del cliente los gastos que ocasione el cobro extrajudicial, más IVA del valor de la mora, y si hubiese lugar a los gastos legales de conformidad con las disposiciones legales aplicables. Cualquier pago que se realice se aplicará primeramente a estos gastos. 
+
+4. DERECHOS DEL ACREEDOR.
+En caso de incumplimiento en las obligaciones a cargo del cliente, FINEXUS S.A.S. podrá dar por vencido(s) el (los) plazos de la obligación o de las cuotas pendientes de pago, y por ende exigir el pago total e inmediato, cuando se presente alguno de los siguientes eventos: a) Incumplimiento de cualquiera de las obligaciones contraídas por el cliente con FINEXUS S.A.S., o falsedad en sus declaraciones o documentos; b) Si el cliente fuere demandado ejecutivamente por terceros, entrará en proceso de liquidación obligatoria, voluntaria o cualquier proceso de insolvencia; c) En el evento en que las autoridades competentes vinculen al cliente a investigaciones por cualquier conducta sancionable, relacionada especialmente con delitos de lavado de activos y financiación del terrorismo, sea incluido en listas inhibitorias o condenado por parte de las entidades competentes en cualquier tipo de proceso judicial relacionado con la comisión de cualquier delito d) En caso de muerte del cliente e) En caso del retiro del cliente de la empresa que efectúa los descuentos de nómina para cubrir los pagos periódicos del crédito de Libranzas f) En los demás casos autorizados por la Ley. Así mismo, podrá reportar el incumplimiento del cliente ante centrales de riesgo. Lo anterior, además de los derechos que en calidad de acreedor otorgue la legislación comercial vigente y demás normas concordantes y complementarias. 
+
+5. DERECHOS DEL CLIENTE.
+El cliente tiene derecho a solicitar en cualquier tiempo toda la información que estime conveniente sobre su crédito, además de los derechos que en su calidad le otorgue la legislación comercial vigente y demás normas concordantes y complementarias.
+
+6. PRESENTACIÓN DE SOLICITUDES, QUEJAS Y RECLAMOS.
+El cliente tiene derecho a presentar solicitudes, quejas o reclamos a FINEXUS S.A.S., a través de sus oficinas, a la línea de atención al cliente al correo electrónico servicoalcliente@finexus.com. 
+
+7. AUTORIZACIONES.
+Al otorgamiento del crédito y mediante los documentos respectivos y complementarios a los presentes términos y condiciones, el cliente acepta y autoriza a FINEXUS S.A.S., lo siguiente:
+1. Autorizo a FINEXUS S.A.S. o al administrador o tenedor de mis operaciones de crédito para reportar, consultar y divulgar mi información crediticia ante cualquier central de información autorizada según las condiciones establecidas por las entidades de control y vigilancia respectivas. 2. De conformidad con lo previsto en la Ley 1581 de 2012 sobre protección de datos personales, autorizo expresamente a FINEXUS S.A.S o al administrador o tenedor de mis operaciones, para que realice el tratamiento de mis datos personales aportados a través del formato de solicitud. Dicha información será incorporada a la base de datos de titularidad de FINEXUS S.A.S o el administrador o tenedor de esta operación. Mis datos serán utilizados en la gestión administrativa y comercial de la solicitud y cualquier otra gestión que se derive de la eventual relación contractual que se genere entre las partes. Manifiesto que conozco que puedo ejercer los derechos de acceso, actualización, rectificación, revocatoria y supresión de mis datos personales de conformidad con lo previsto en la citada Ley, a través de la solicitud dirigida a la entidad y/o por los medios habilitados por la entidad para el efecto. Conozco que el responsable del tratamiento de los datos personales es FINEXUS S.A.S NIT 901.250.121-3, ubicado en la Carrera 51B 80-58 Of 401 Barranquilla, Colombia. 3. En caso de ser trabajador independiente o empleado con ingresos adicionales, autorizo a FINEXUS S.A.S. para que a mi cargo realice visitas comerciales para comprobación de ingresos. 4. En caso de que el crédito sea negado, autorizo a FINEXUS S.A.S. Para destruir los documentos adjuntos a la respectiva solicitud pasado un mes a partir de la fecha de generación ésta. 5. No obstante el monto de crédito solicitado, de acuerdo con el análisis de crédito, FINEXUS S.A.S podrá otorgar un menor valor de crédito, cuota o plazo. 6. Cesión: En el evento en que resulte aprobada la solicitud de crédito, FINEXUS S.A.S, o quien represente sus derechos, podrá ceder el crédito sin que para ello tenga que notificarlo previamente. 7. En el evento en que resulte aprobada la solicitud de crédito, autorizo expresa e irrevocablemente a FINEXUS S.A.S. para descontar en la fecha de desembolso del crédito el valor correspondiente a los gastos que se causen en el trámite de estudio y evaluación del mismo. Igualmente autorizo descontar del producto del crédito otorgado, la suma equivalente de los intereses causados entre la fecha de desembolso y el día del primer corte del crédito antes de la primera cuota. 8. Autorizo a FINEXUS S.A.S. para que, en el evento de tener otro crédito vigente a mi cargo, éste sea cancelado con el préstamo que me sea aprobado. 9. Autorizo voluntaria e irrevocablemente a FINEXUS S.A.S. para que me envíen a mi celular o correo electrónico la información relacionada con mi crédito. 10. En el evento que la tasa del crédito otorgado llegue a ser superior a la tasa máxima legal permitida en cualquier momento, autorizo a FINEXUS S.A.S. a modificar el plazo del crédito para ajustar la tasa de mi obligación. 11. He sido informado en forma clara, suficiente, anticipada y expresa que puedo cancelar de manera anticipada la totalidad de la obligación adquiridas. Para ello debo solicitar certificación de deuda a FINEXUS S.A.S. en la cual constará el monto a cancelar por concepto de la obligación que se pretende pagar anticipadamente. 12. Autorizo a suministrar y estar pendiente al correo electrónico detallado en el formulario “SOLICITUD DE CREDITO” por medio del cual FINEXUS S.A.S. enviara los extractos de pago y demás información referente. Cualquier cambio en sus datos de correo(s) electrónico(s) deberá ser notificado oportunamente al correo electrónico servicoalcliente@finexus.com. En caso de que FINEXUS S.A.S. se viera en la necesidad de contactarlo y los datos registrados estén desactualizados, FINEXUS S.A.S. no asumirá ninguna responsabilidad frente estos.
+
+8. GENERALIDADES.
+FINEXUS S.A.S. otorga créditos de Libranza con el respaldo de pagarés, y, a su vez, en algunos casos, dichos pagarés son negociados con las entidades encargadas de ofrecer los servicios de descuento de títulos valores. Lo anterior de acuerdo con los contratos suscritos con estos y bajo las siguientes anotaciones: 1. La tasa de interés remuneratoria o corriente se liquidará al momento de otorgar el crédito y las cuotas serán canceladas en forma vencida. La tasa de interés no podrá superar la máxima legal vigente establecida por la ley. 2. La tasa de interés de mora corresponderá a la máxima legal autorizada por la ley, vigente en el momento de la liquidación. 3. Las comisiones y recargos aplicables a la operación se relacionarán con seguros, gastos y costos por gestión de cobranza, valor del servicio por la garantía (Fianza) que otorgue la entidad afianzadora o cualquier otro de características similares. 4. FINEXUS S.A.S. tiene derecho a declarar el plazo vencido y ejercer acciones de recaudo en virtud de la aceleración del plazo si se presenta cualquier incumplimiento del deudor. Así mismo, podrá reportar el incumplimiento del deudor ante las centrales de riesgo que funcionan en el país. Lo anterior, además de los derechos que en calidad de acreedores le otorga la legislación comercial. 5. El deudor tiene derecho a solicitar a FINEXUS S.A.S. o la entidad avalista afianzadora, información sobre la calificación de riesgo que esta le asigne. En los términos anteriores consta que ha sido informado y documentado y que conoce y entiendo plenamente los términos y condiciones, bajo las cuales se celebra con FINEXUS S.A.S. o la entidad avalista afianzadora el contrato de crédito correspondiente, en el evento de aprobarse la solicitud, con las cuales está de acuerdo y los acepta irrevocablemente. En ese sentido, deja constancia que conoce las tasas de interés corriente y de mora, las comisiones y recargos, el plazo, las condiciones de prepago, los derechos de FINEXUS S.A.S. o la entidad avalista afianzadora en el momento de incurrir en incumplimiento, los derechos que se me asisten en calidad de deudor y en general, las demás condiciones que regirán la operación. 6. FINEXUS S.A.S. podrá negociar la cartera con aquellas entidades que se dediquen a las actividades de compra y venta de títulos valores o de cartera, estas adquieren todos los derechos del crédito y todos aquellos relacionados con la cobranza y/o recuperación de la cartera. 7. El solicitante manifiesta que conoce y acepta que a partir del incumplimiento de plazo pactado en una o varias de las obligaciones a su cargo, esta(s) será(n) enviada(s) para su cobro a la entidad avalista afianzadora por el solo hecho de entrar en mora. 8. El solicitante manifiesta que, en caso de haber un desistimiento del crédito por parte de este, acepta que como cliente queda obligado a pagar todos los costos y gastos generados desde el momento de la aprobación de la operación de crédito, por concepto de comisión del aval (fianza), y demás que se causen en relación con la operación de crédito aprobado, incluso en el evento en que no se alcance a desembolsar el monto de la operación. Lo anterior, por cuanto acepta que los referidos costos y gastos se generan desde el inicio de la aprobación a favor de terceros, de manera que deben ser objeto de pago.  9. El solicitante acepta todo lo hasta aquí señalado y manifiesta que conoce que la relación producida del servicio ofrecido y financiado se establece directamente entre él y FINEXUS S.A.S. que ofrece el servicio, de manera que cualquier solicitud en relación con los servicios prestados por FINEXUS S.A.S., así como cualquier solicitud de devolución de dineros, deberá ser tramitada directamente por él ante FINEXUS S.A.S. 10. El solicitante manifiesta que, como cliente cuya obligación de  crédito es avalada o afianzada, ha sido oportunamente informado por parte de FINEXUS S.A.S. y que acepta, que en el evento de caer  en mora en el pago de sus obligaciones para con  FINEXUS S.A.S., la entidad avalista o afianzadora, se dará aviso inmediato de tal circunstancia a las personas  naturales y/o jurídicas encargadas de efectuar el cobro de la  cartera de las respectivas entidad, con el propósito de que inicien gestiones de  cobro y recuperación concernientes, a través, entre otros, de los siguientes mecanismos: llamados telefónicos, comunicaciones escritas (mensajes de textos, correos electrónicos, redes sociales y cartas, etc.) y visitas. En ese sentido y por virtud de la gestión de cobro pre jurídico, que se deba adelantar, se cobrarán intereses moratorios a la tasa máxima permitida por la ley y gastos de cobranza, hasta del 20% del saldo en mora y será a cargo del cliente y a favor de las personas naturales y/o jurídicas que realicen las gestiones respectivas. Los anteriores valores se incrementarán de acuerdo con el IVA aplicable. A partir del día 30 de mora, la respectiva obligación de crédito se enviará para cobro jurídico, siendo así mismo de cargo del cliente los honorarios que se causen a favor del abogado encargado de la recuperación de la cartera, cuyo monto se regirá por las políticas que al efecto tenga establecidas para ese momento el jurídico. En todo caso, FINEXUS S.A.S. o el acreedor de la obligación o la entidad avalista afianzadora, se reservan el derecho de enviar anticipadamente la obligación para su cobro jurídico, cuando en su criterio existan circunstancias que lo ameriten. El cliente deberá pagar desde en ese mismo momento los honorarios que creen dicha gestión. De igual forma, FINEXUS S.A.S. y la entidad avalista afianzadora, se reservan el derecho de continuar realizando gestión de cobro pre-jurídico de la cartera que alcance los 30 días de mora, en cuyo caso los honorarios que se creen a cargo del cliente y a favor de las personas naturales y/o jurídicas encargadas de la gestión del cobro, corresponderán al 20% del valor total en mora, incrementando en el IVA correspondiente.  11. El solicitante manifiesta que como cliente cuya obligación de crédito es avalada, ha sido oportunamente informado por parte de FINEXUS S.A.S. y acepta que: A. En el evento de caer en mora en el pago de sus obligaciones para con FINEXUS S.A.S. y que la entidad avalista afianzadora pague la(s) respectiva(s) obligación(es) en virtud de esta garantía, deberá reconocer a favor de la entidad avalista afianzadora, por conceptos de gastos de cobranzas, una suma equivalente al veinte por ciento (20%) del valor de la respectiva cuota o monto de la obligación que haya sido cubierta por esta entidad. En este último caso, el reconocimiento de gastos de cobranza a favor de la entidad avalista, excluye el reconocimiento de gastos de cobranza a favor de cualquiera otra persona o sociedad. Así mismo, que ha sido debidamente informado por FINEXUS S.A.S. acerca de las demás circunstancias pertenecientes a la gestión de cobro que ejerce la entidad avalista en caso de presentarse incumplimiento en los pagos o mora en las obligaciones avaladas por dicha entidad. 
+
+9. GASTOS DE COBRANZA.
+FINEXUS S.A.S. iniciará una gestión de cobranza que se efectuará bajo las condiciones y procedimientos descritos a continuación, en donde siempre se respetarán los derechos de los clientes, y cumplen integralmente las disposiciones y previsiones establecidas por la Superintendencia de Industria y Comercio y por remisión por la superintendencia financiera y demás entidades sobre la materia, así: 1. Los cobros que se hagan por gastos de cobranza son completamente diferentes y adicionales a las sanciones que contempla el título valor, si hay lugar a ello, por el hecho del incumplimiento. Los primeros se aplicarán en la medida en que FINEXUS S.A.S.  deba desplegar algún tipo de actividad para recuperar la cartera, mientras los segundos se generan por el simple incumplimiento de la obligación al momento de su vencimiento. Es así como tales gastos de cobranza se causan a favor FINEXUS S.A.S. por concepto de la contratación de un tercero, quien por la utilización de la infraestructura de personal, administrativa, de recursos físicos y tecnológicos para adelantar la gestión de cobranza respectiva, cuyos gastos corresponderán al 20% del valor capital, y deben ser asumidos por el deudor; a lo que debe adicionarse lo correspondiente a los intereses moratorios que se causen y las demás sanciones que especifica la ley por el incumplimiento. 2. La gestión de cobranza prejudicial se iniciará una vez se verifique el incumplimiento de la obligación por parte del deudor y se realiza mediante comunicación telefónica, medios electrónicos o correo físico, de acuerdo con la información suministrada para estos fines. 3. Para el desarrollo de la labor de cobranza FINEXUS S.A.S. y el tercero han dispuesto para sus clientes diferentes alternativas para recibir los pagos en sus oficinas. 4. Todas las actividades desplegadas por FINEXUS S.A.S. para lograr el pago de la obligación quedan debidamente registradas, por tanto, el deudor tendrá derecho a solicitar copia de las mismas a su costa. Todas las inquietudes que le surjan a los clientes le serán atendidas por el ejecutivo de cuenta encargado y/o por la coordinación de servicio al cliente, quienes estarán dispuestos a colaborarles de la mejor manera posible. Los funcionarios encargados pueden ser contactados a través del correo electrónico servicioalcliente@finexus.com, Carrera 51B 80-58 Of. 401 Barranquilla/Colombia. 2. La gestión comercial de cobro, así como la jurídica, se realizarán a discreción de FINEXUS S.A.S. dependiendo del comportamiento de la cobranza, y podrá incluir hasta el reporte en las centrales de riesgo y de información, de conformidad con la autorización expedida por el cliente, el cual le será informado con la anticipación establecida en la ley. 5. Todos los pagos parciales que realice un deudor se imputarán de la siguiente forma: Primero se cubrirán los gastos de cobranza. Segundo se cubrirán las sanciones a que haya lugar. Tercero se cubrirán los intereses causados hasta la fecha del pago. Cuarto se cubrirá el capital adeudado. 8. FINEXUS S.A.S. o su avalista afianzador podrá exigir el pago total de la obligación, aplicando la cláusula aceleratoria a las cuotas no vencidas contemplada en los títulos valores suscritos por los clientes.
+
+10. TRATAMIENTO DE DATOS PERSONALES.
+FINEXUS S.A.S., es una sociedad comercial comprometida con la protección de los Datos Personales a los que tiene acceso en el desarrollo de sus actividades. Dentro del desarrollo de su objeto social, recibe, transmite y trata Datos Personales al interior y externamente en el giro ordinario de sus negocios. Todo lo cual, de acuerdo con sus estatutos, su objeto social y la ley.
+Para tales fines, FINEXUS S.A.S. tiene establecidas unas Políticas para garantizar el adecuado cumplimiento de la ley de protección de datos personales aplicable, y para la atención de consultas y reclamos de los titulares de los Datos Personales sobre los que FINEXUS S.A.S realiza Tratamiento. En tal virtud, por medio del presente las hacemos públicas:
+“DEFINICIONES. Las expresiones utilizadas en este documento tendrán el significado que aquí se les otorga, o el significado que la ley o la jurisprudencia aplicable les den, según dicha ley o jurisprudencia sea modificada con el tiempo. Se entenderá que las definiciones expresadas en la forma plural se entenderán también de acuerdo con el significado que se indique para la palabra en singular. a. “Autorización”, es el consentimiento previo, expreso e informado del Titular para llevar a cabo el Tratamiento de sus Datos Personales. b. “Base de Datos”, es el conjunto organizado de Datos Personales que sean objeto de Tratamiento, electrónico o no, cualquiera que fuere la modalidad de su formación, almacenamiento, organización y acceso. c. “Dato Financiero”, es todo Dato Personal referido al nacimiento, ejecución y extinción de obligaciones dinerarias, independientemente de la naturaleza del contrato que les dé origen, cuyo Tratamiento se rige por la Ley 1266 de 2008 o las normas que la complementen, modifiquen o adicionen. d.” Dato Personal”, es cualquier información de cualquier tipo, vinculada o que pueda asociarse a una o varias personas naturales determinadas o determinables. e. “Dato Público”, es el Dato Personal calificado como tal, según los mandatos de la ley o de la Constitución Política y aquel que no sea semiprivado, privado o sensible. Son públicos, entre otros, los datos relativos al estado civil de las personas, a su profesión u oficio, a su calidad de comerciante o de servidor público y aquellos que puedan obtenerse sin reserva alguna. Por su naturaleza, los Datos Públicos pueden estar contenidos, entre otros, en registros públicos, documentos públicos, gacetas y boletines oficiales, sentencias judiciales debidamente ejecutoriadas que no estén sometidas a reserva. f. “Dato Semiprivado”, es el Dato Personal que no tiene naturaleza íntima, reservada, ni pública y cuyo conocimiento o divulgación puede interesar no sólo a su titular sino a cierto sector o grupo de personas o a la sociedad en general. g. “Dato Sensible”, es el Dato Personal que afecta la intimidad del Titular o cuyo uso indebido puede generar su discriminación, tales como aquellos que revelen afiliaciones sindicales, el origen racial o étnico, la orientación política, las convicciones religiosas, morales o filosóficas, así como los datos relativos a la salud, a la vida sexual y los datos biométricos que revelan origen racial y étnico, opiniones políticas, convicciones religiosas, filosóficas o morales, afiliación sindical e información referente a la salud o a la vida sexual. h. “Encargado del Tratamiento”, es la persona natural o jurídica, pública o privada, que por sí misma o en asocio con otros, realice el Tratamiento de Datos Personales por cuenta del responsable del Tratamiento. i. “Autorizado”, es FINEXUS S.A.S. y todas las personas bajo la responsabilidad de este, que por virtud de la Autorización y de las Políticas tienen legitimidad para someter a Tratamiento los Datos Personales del Titular. j. “Ley”, es la ley 1266 de 2008, la Ley 1581 de 2012, la jurisprudencia de la Corte constitucional sobre Datos Personales que sienta precedentes, y la regulación expedida por el gobierno reglamentando los preceptos legales, que se encuentren vigentes al momento en que se dé inicio al Tratamiento del Dato Personal por parte de FINEXUS S.A.S, según dicha Ley sea modificada de tiempo en tiempo y dicha modificación aplique al Tratamiento realizado por FINEXUS S.A.S. sobre el Dato Personal. k. “Responsable del Tratamiento”, es toda persona destinataria del presente documento y sujeta al cumplimiento del mismo por realizar actividades de Tratamiento de Datos Personales dentro, en nombre de, en representación de, o para, FINEXUS S.A.S., incluyendo, pero sin limitarse a, todo aquel que sea empleado, director, representante, contratista, agente, diputado, delegado, embajador, accionista, socio, consultor externo, proveedor y cliente de FINEXUS S.A.S. m. “Responsable de Tratamiento”, es la persona natural o jurídica, pública o privada, que por sí misma o en asocio con otros, decida sobre la Base de Datos y/o el Tratamiento de los Datos personales. n. “Titular” del Dato Personal, es la persona natural a quien se refiere la información que reposa en una Base de Datos. r. “Transmisión”, es la actividad de Tratamiento de Datos Personales mediante la cual se comunican los mismos, internamente o con terceras personas, dentro o fuera del territorio de la República de Colombia, cuando dicha comunicación tenga por objeto la realización de cualquier actividad de Tratamiento por el receptor del Dato Personal. s. “Tratamiento” de Datos Personales, es toda operación y procedimiento sistemático, electrónico o no, que permita la recolección, conservación, ordenamiento, almacenamiento, modificación, relacionamiento, uso, circulación, evaluación, bloqueo, destrucción y en general, el procesamiento de Datos Personales, así como también su transferencia a terceros a través de comunicaciones, consultas, interconexiones, cesiones, mensajes de datos entre otros.
+
+PRINCIPIOS Y REGLAS PARA EL TRATAMIENTO DE DATOS PERSONALES.  En todo Tratamiento de Datos Personales realizado por FINEXUS S.A.S. o el responsable, deberá darse cumplimiento a los principios y reglas establecidos en la Ley y en el presente documento con el fin de garantizar el derecho al habeas data de los Titulares y dar cumplimiento a las obligaciones de Ley por parte de FINEXUS S.A.S. Estas reglas y principios son: 1. Autorización previa: Todo Tratamiento de Datos Personales requiere la Autorización previa, expresa e informada del Titular, salvo que la Ley establezca una excepción a esta regla. 2. Finalidad autorizada: Toda actividad de Tratamiento de Datos Personales debe obedecer a las finalidades mencionadas en este documento o en la Autorización otorgada por el Titular del Dato, o en los documentos específicos donde se regule cada tipo o proceso de Tratamiento de Datos Personales. La finalidad particular del Tratamiento de un Dato Personal debe ser informada al Titular del Dato Personal al obtener su Autorización. De manera general, las principales finalidades del Tratamiento de Datos Personales por parte de FINEXUS S.A.S. son, pero no se limitan a: a) Realizar todos los procesos necesarios para dar cumplimiento a las obligaciones legales y regulatorias en relación con los empleados de FINEXUS S.A.S. b) Gestionar toda la información necesaria para el cumplimiento de las obligaciones tributarias y de registros comerciales, corporativos y contables de FINEXUS S.A.S. c) Cumplir los procesos internos de FINEXUS S.A.S. en materia de administración de proveedores y contratistas. d) Prestar sus servicios de acuerdo con las necesidades particulares de los clientes y con las actividades realizadas por FINEXUS S.A.S. conforme a su naturaleza jurídica, con el ¬fin de cumplir los contratos celebrados. Como consecuencia de ello, FINEXUS S.A.S. tendrá de manera particular como finalidades para el Tratamiento de los Datos Personales, entre otras, las siguientes: (i) cumplimiento de las obligaciones de facturación y obligaciones regulatorias aplicables a la relación contractual entre FINEXUS S.A.S. y el titular del dato, (ii) dar cumplimiento a obligaciones regulatorias a cargo de FINEXUS S.A.S. en relación con sus negocios y operación, (iii) poner en práctica las políticas corporativas de FINEXUS S.A.S. (iv) cumplir con las obligaciones contractuales adquiridas por FINEXUS S.A.S. con sus clientes, (v) realizar actividades de mercadeo y/o comercialización de nuevos servicios o productos propios o de terceros con los cuales tenga alianzas comerciales, (vi) realizar actualizaciones de datos de contacto y otra información del cliente, (vii) garantizar el cumplimiento de los protocolos de seguridad de la información, (viii) transferir los datos personales de los titulares a los terceros en Colombia o en el exterior con quienes FINEXUS S.A.S. tiene convenios de transferencia, (ix) dar cumplimiento a los protocolos de contratación de FINEXUS S.A.S., (x) elaborar estadísticas, encuestas, y análisis de mercado, (xi) administrar el recurso humano del FINEXUS S.A.S. de conformidad con los términos legales y contractuales aplicables. e) Las demás finalidades que determinen los responsables en procesos de obtención de Datos Personales para su Tratamiento. 3. Calidad del Dato: El Dato Personal sometido a Tratamiento debe ser veraz, completo, exacto, actualizado, comprobable y comprensible. Cuando se esté en poder de Datos Personales parciales, incompletos, fraccionados o que induzcan a error, FINEXUS S.A.S. deberá abstenerse de someterlo incompletos, fraccionados o que induzcan a error, FINEXUS S.A.S. deberá abstenerse de someterlo a Tratamiento, o solicitar a su Titular la completitud o corrección de la información. 4. Entrega de información al Titular: Cuando el Titular lo solicite, FINEXUS S.A.S. deberá entregarle información sobre la existencia de Datos Personales que le conciernan al solicitante, la finalidad para la cual se recolectan y someten a Tratamiento sus Datos Personales, así como el Tratamiento al cual son sometidos los Datos Personales. 5. Circulación restringida: Los Datos Personales solo pueden ser Tratados por aquel personal de FINEXUS S.A.S. que cuente con autorización para ello, o quienes dentro de sus funciones tengan a cargo la realización de tales actividades. No podrán entregarse Datos Personales a quienes no cuenten con Autorización o no hayan sido Habilitados por FINEXUS S.A.S.  para Tratarlos. 6. Acceso restringido: FINEXUS S.A.S. no podrá hacer disponibles Datos Personales para su acceso a través de Internet u otros medios masivos de comunicación, a menos que se establezcan medidas técnicas que permitan controlar el acceso solo a las personas Autorizadas. 7. Confidencialidad: FINEXUS S.A.S. debe siempre realizar el Tratamiento disponiendo las medidas técnicas, humanas y administrativas que resulten necesarias para mantener la confidencialidad del Dato Personal y para evitar que éste sea adulterado, modificado, consultado, usado, accedido, eliminado, o conocido por personas no Autorizadas o por personas Autorizadas y no Autorizadas de manera fraudulenta, o que el Dato Personal se pierda. Todo nuevo proyecto que implique el Tratamiento de Datos Personales deberá ser consultado con la Dirección de Servicio al Cliente de FINEXUS S.A.S. para asegurar el cumplimiento del presente documento y de las medidas necesarias para mantener la confidencialidad del Dato Personal. 8. Confidencialidad y Tratamiento posterior: Todo Dato Personal que no sea Dato Público debe tratarse por los responsables como confidencial, aun cuando la relación contractual o el vínculo entre el Titular del Dato Personal y FINEXUS S.A.S. haya terminado. A la terminación de dicho vínculo, tales Datos Personales deben continuar siendo Tratados de conformidad con este documento y de acuerdo con lo dispuesto por la Ley. 9. Necesidad: Los Datos Personales solo pueden ser Tratados durante el tiempo y en la medida que la finalidad de su Tratamiento lo justifique.
+
+DERECHOS DE LOS TITULARES. De acuerdo con la Ley, los Titulares de Datos Personales tienen los siguientes derechos: 1. Conocer, actualizar y rectificar sus Datos Personales frente a FINEXUS S.A.S. o los encargados del Tratamiento de los mismos. Este derecho se podrá ejercer, entre otros frente a Datos Personales parciales, inexactos, incompletos, fraccionados, que induzcan a error, o aquellos cuyo Tratamiento esté expresamente prohibido o no haya sido autorizado. 2. Solicitar prueba de la Autorización otorgada a FINEXUS S.A.S., salvo que la Ley indique que dicha Autorización no es necesaria. 3. Presentar solicitudes ante FINEXUS S.A.S. o el Encargado del Tratamiento respecto del uso que se le ha dado a sus Datos Personales, y a que éstas le entreguen tal información. 4. Presentar ante la Superintendencia de Industria y Comercio quejas por infracciones a la Ley 1581 de 2012, reglamentada parcialmente mediante el Decreto 1377 de 2013, y demás normas concordantes. 5. Revocar su Autorización y/o solicitar la supresión de sus Datos Personales de las Bases de Datos de FINEXUS S.A.S., en cualquier momento. Cuando la Superintendencia de Industria y Comercio haya determinado mediante acto administrativo definitivo que en el Tratamiento FINEXUS S.A.S. o el encargado del Tratamiento ha incurrido en conductas contrarias a la Ley. De conformidad con el Decreto 1377 de 2013, la solicitud de supresión de los datos personales y la revocatoria de la autorización para el tratamiento de estos no procederán cuando el titular tenga un deber legal o contractual de permanecer en la base de datos. 6. Solicitar acceso y acceder en forma gratuita a sus Datos Personales que hayan sido objeto de Tratamiento. Los Titulares podrán ejercer sus derechos de Ley y realizar los procedimientos establecidos en este documento, mediante la presentación de su cédula de ciudadanía o documento de identificación original. Estos derechos deberán ser informados al Titular de los Datos Personales toda vez que su Autorización sea solicitada para el Tratamiento de los mismos, de acuerdo con la Ley.
+
+ÁREA DE PROTECCIÓN DE DATOS PERSONALES. FINEXUS S.A.S. ha dispuesto que el área encargada de la atención a clientes, proveedores y empleados para la Protección de Datos Personales sea la Dirección de Servicio al Cliente. Esta área es responsable de la recepción y atención a Peticiones, Quejas y Reclamos relacionada con la Protección de Datos Personales. Los datos de contacto del Área de Atención de FINEXUS S.A.S. son: Correo electrónico: servicioalcliente@finexus.com 
+Dirección física: Carrera 51B 80-58 Of. 401 Barranquilla, Atlántico.
+
+PROCEDIMIENTOS DE CONSULTAS Y RECLAMOS. 1. CONSULTAS. FINEXUS S.A.S. dispone de mecanismos para que el Titular formule CONSULTAS respecto de cuáles son los Datos Personales del Titular que reposan en las Bases de Datos de FINEXUS S.A.S. Estos mecanismos podrán ser físicos como trámite de ventanilla, o electrónicos como correo electrónico. Cualquiera que sea el medio, FINEXUS S.A.S. deberá guardar prueba de la consulta y su respuesta. a) Antes de proceder, el Responsable de atender la consulta verificará: i) La identidad del Titular del Dato Personal o su representante. Para ello, puede exigir la cédula de ciudadanía o documento de identificación original del Titular, y los poderes especiales o generales según sea el caso. ii) La Autorización o contrato con terceros que dieron origen al Tratamiento, por parte FINEXUS S.A.S. del Dato Personal del Titular. b) Si el solicitante tuviere capacidad para formular la consulta, el Responsable recopilará toda la información sobre el Titular que esté contenida en el registro individual de esa persona o que esté vinculada con la identificación del Titular dentro de las Bases de Datos de FINEXUS S.A.S. c) El Responsable de atender la consulta dará respuesta al solicitante siempre y cuando tuviere derecho a ello por ser el Titular del Dato Personal. Esta respuesta deberá ser enviada dentro de los diez (10) días hábiles siguientes contados a partir de la fecha en la que la solicitud fue recibida por FINEXUS S.A.S. d) En caso de que la solicitud no pueda ser atendida en los diez (10) hábiles siguientes a la consulta, se contactará al solicitante para comunicarle los motivos por los cuales el estado de su solicitud se encuentra en trámite. e) La respuesta definitiva a todas las solicitudes no puede tardar más de quince (15) días hábiles desde la fecha en la que la solicitud inicial fue recibida por FINEXUS S.A.S. 2. RECLAMOS. FINEXUS S.A.S. dispone de mecanismos para que el Titular formule RECLAMOS respecto de (i) Datos Personales Tratados por este que deben ser objeto de corrección, actualización o supresión, o (ii) el presunto incumplimiento de los deberes de Ley por parte de FINEXUS S.A.S. Estos mecanismos podrán ser físicos como trámite de ventanilla, o electrónicos como correo electrónico. Cualquiera que sea el medio, FINEXUS S.A.S. deberá guardar prueba de la consulta y su respuesta. a) El reclamo deberá ser presentado por el Titular, así: i) Deberá dirigirse a FINEXUS S.A.S. ii) Deberá contener el nombre y documento de identificación del Titular. iii) Deberá contener una descripción de los hechos que dan lugar al reclamo y el objetivo perseguido (actualización, corrección o supresión, o cumplimiento de deberes). iv) Deberá indicar la dirección y datos de contacto e identificación del reclamante. v) Deberá acompañarse por toda la documentación que el reclamante quiera hacer valer. b) Si el reclamo o la documentación adicional están incompletos, FINEXUS S.A.S. requerirá al reclamante por una sola vez dentro de los cinco (5) días siguientes a la recepción del reclamo para que subsane las fallas. Si el reclamante no presenta la documentación e información requerida dentro de los dos (2) meses siguientes a la fecha del reclamo inicial, se entenderá que ha desistido del reclamo. c) El término máximo para atender el reclamo será de quince (15) días hábiles contados a partir del día siguiente a la fecha de su recibo. Cuando no fuere posible atender el reclamo dentro de dicho término, se informará al interesado los motivos de la demora y la fecha en que se atenderá su reclamo, la cual en ningún caso podrá superar los ocho (8) días hábiles siguientes al vencimiento del primer término.
+
+LEGISLACIÓN NACIONAL VIGENTE SOBRE LA PROTECCIÓN DE DATOS. El presente documento se encuentra gobernado por la Ley 1581 de 2012, el Decreto 1377 de 2013, así como por toda otra Ley, decreto, o regulación que la modi¬fique, reglamente, o derogue. En cualquier caso de conflicto entre este documento y la Ley, primará lo establecido en la Ley aún si no se encuentra aquí descrito.
+
+VIGENCIA. Los Datos Personales que sean almacenados, utilizados o transmitidos permanecerán en las Bases de Datos de FINEXUS S.A.S. durante el tiempo que sea necesario para cumplir las ¬finalidades mencionadas en este documento, para las cuales fueron recolectados.
+
+MODIFICACIONES. Este documento podrá ser modificado por parte de FINEXUS S.A.S. De conformidad con el Decreto 1377 de 2013, cualquier cambio sustancial en las Políticas de Tratamiento se comunicará oportunamente a los Titulares de los Datos Personales de una manera eficiente, antes de implementar las nuevas políticas.
+
+El cliente declara que, al solicitar su estudio y otorgamiento del crédito, expresa e inequívocamente ha leído, y que entiende y acepta todos y cada uno de los términos y condiciones bajo los cuales FINEXUS S.A.S. prestara los servicios contratados. Así mismo, que ha sido debidamente informado por parte de FINEXUS S.A.S. para que, cualquier otra inquietud o información adicional en relación con los servicios contratados será debidamente atendida, a través de las líneas de atención al cliente de esta entidad.
+          augue duis dolore te.
+        </div>
+        <div class="footer-terms">
+          <label class="container-check">
+            <input
+              type="checkbox"
+              [(ngModel)]="acceptTerms"
+              (click)="showTerms = false; acceptTerms = true"
+            />
+            <span class="checkmark"></span>
+          </label>
+          <span class="terms-label">
+            He leído los términos y condiciones
+          </span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-lg-5 offset-lg-1 col-sm-10 offset-sm-1 col-buttons-bottom"
+      [ngClass]="{ hiddenFormTablet: resultSimulation }"
+    >
+      <form [formGroup]="formFinancial">
+        <div class="form-group">
+          <select
+            class="form-control"
+            formControlName="id_pagaduria"
+            name="id_pagaduria"
+            placeholder="pagaduria"
+            (change)="getTypeClient()"
+          >
+            <option value="">Pagaduria</option>
+            <option [value]="item.id" *ngFor="let item of pagaduries">{{
+              item.descripcion
+            }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <select
+            class="form-control"
+            name="id_tipo_cliente"
+            formControlName="id_tipo_cliente"
+            (change)="getTypeOfContracts()"
+          >
+            <option value="">Tipo de empleado</option>
+            <option [value]="item.id" *ngFor="let item of typeClients">{{
+              item.descripcion
+            }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <select class="form-control" formControlName="id_tipo_contrato">
+            <option value="">Tipo de contrato</option>
+            <option [value]="item.id" *ngFor="let item of typeOfContracts">{{
+              item.descripcion
+            }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Fecha inicio de labores"
+            formControlName="fecha_inicio_labores"
+            readonly
+            ngbDatepicker
+            #d3="ngbDatepicker"
+            (click)="d3.toggle()"
+            [minDate]="{ year: 1950, month: 1, day: 1 }"
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Salario"
+            formControlName="salario_basico"
+            (keyup)="currency('salario_basico', 'formFinancial')"
+          />
+        </div>
+      </form>
+
+      <div class="" [ngClass]="{ hiddenFormTablet: resultSimulation }">
+        <div class="col-md-3">
+          <button
+            class="btn principal"
+            (click)="saveSimulationLead()"
+       
+          >
+            Siguiente etapa
+          </button>
+        </div>
+        <!-- <div class="col-md-3">
+          <button class="btn transparent">Ya no quiero cumplir mi sueño</button>
+        </div> -->
+      </div>
+    </div>
+    <div
+      class="col-lg-5 col-sm-10 offset-sm-1 col-buttons-bottom col-result-simulation"
+      *ngIf="statusSimulation == 3 && resultSimulation"
+    >
+      <div class="row">
+        <div class="col-md-12" style="margin-bottom: 2em;">
+          <h1 class="title-big">Te prestaríamos hasta</h1>
+          <h1 class="title-big">
+            {{
+              resultSimulation?.valor_prestamo | currency: "USD":true:"1.0-0"
+            }}
+          </h1>
+        </div>
+        <div class="col-md-12">
+          <h1>Valor de la cuota mensual</h1>
+          <h1>
+            {{ resultSimulation?.cuota_mensual | currency: "USD":true:"1.0-0" }}
+          </h1>
+        </div>
+        <div class="col-md-3">
+          <h1>Tasa</h1>
+          <h1>{{ resultSimulation?.tasa }}</h1>
+        </div>
+        <div class="col-md-5">
+          <h1>Plazo</h1>
+          <h1>{{ resultSimulation?.plazo }} meses</h1>
+        </div>
+
+        <div class="col-md-12" style="display: flex; align-items: center;">
+          <label class="container-check" >
+            <input type="checkbox" [(ngModel)]="acceptTerms" (change)="changeTerms()"/>
+            <span class="checkmark"></span>
+          </label>
+          <span class="terms-label">
+            Ver políticas de tratamiento de datos y crédito.
+          </span>
+        </div>
+        <div class="col-md-12" style="padding-left: 0 !important;">
+          <button
+            class="finexus-btn btn-simulate-credit"
+            routerLink="/request/{{ currentLead }}/{{ parentSocket }}"
+            [disabled]="!acceptTerms"
+          >
+            Solicitar mi credito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

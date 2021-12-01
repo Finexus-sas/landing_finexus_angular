@@ -1,0 +1,8 @@
+<svg id="Icono_Cerrar_Menu" data-name="Icono Cerrar Menu" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="menu" transform="translate(11.74 12)">
+    <line id="Línea_10" data-name="Línea 10" x2="16.52" transform="translate(0 8)" opacity="0" stroke="#1c3f89" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" fill="none"/>
+    <line id="Línea_11" data-name="Línea 11" y1="16.5" x2="16.02" transform="translate(0.5)" fill="none" stroke="#1c3f89" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    <line id="Línea_12" data-name="Línea 12" x2="16.02" y2="15.5" transform="translate(0.5 0.5)" fill="none" stroke="#1c3f89" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+  </g>
+  <rect id="Rectángulo_658" data-name="Rectángulo 658" width="40" height="40" fill="none"/>
+</svg>

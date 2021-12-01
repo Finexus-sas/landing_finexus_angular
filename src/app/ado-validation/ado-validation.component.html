@@ -1,0 +1,93 @@
+<div class="container-fluid container-simulator" id="container-fluid" *ngIf="status==1">
+    <div class="row" style="margin-bottom: 1em;">
+        <div class="col-lg-1 col-sm-1">
+            <img src="/assets/back.png" style="cursor: pointer; transform: translateY(-10px) translateX(-14px);"
+                (click)="goToHome()" />
+        </div>
+        <div class="col-lg-6 col-sm-10">
+            <h1>Estamos aquí para ayudarte a cumplir
+                Todas tus metas.</h1>
+            <p>
+                Solo necesitamos que llenes los siguientes dos campos.
+            </p>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 offset-lg-1 col-sm-10 offset-sm-1">
+            <form [formGroup]="formValidation">
+                <div class="form-group">
+                    <input type="number" class="form-control" id="identificacion" placeholder="Identificación"
+                        formControlName="identificacion" />
+                </div>
+
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="N° De solicitud de credito"
+                        formControlName="nro_solicitud" />
+
+
+                </div>
+                <span *ngIf="errorForm" style="color: #e01764; margin-top: 5px;">Lo sentimos, has ingreado información
+                    incorrecta, verifica los datos e intenta nuevamente</span>
+            </form>
+        </div>
+        <div class="col-lg-7 offset-lg-1 col-sm-10 offset-sm-1 col-buttons-bottom">
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn principal" (click)="validateBussinees()">
+                        ¡ Confirmar mis datos !
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row" *ngIf="status == 2" style="max-width: 100%;     margin: 0 !important;">
+    <h1 class="title-super-big">
+        Lo sentimos, pero
+        tu sueño no se acaba
+    </h1>
+
+    <p class="text-info-success">
+        Tu validación no fue exitosa pero uno de nuestros asesores se contactará contigo para ayudarte a cumplir tu
+        sueño.
+    </p>
+    <button class="finexus-btn btn-simulate-credit" (click)="newIntent()">
+        Quiero intentarlo nuevamente
+    </button>
+</div>
+
+
+<div class="row" *ngIf="status == 3" style="max-width: 100%;     margin: 0 !important;">
+    <h1 class="title-super-big">
+        ¡Excelente, todo
+        salió perfecto!
+    </h1>
+
+    <p class="text-info-success">
+        Hemos valido exitosamente tu identidad y ahora podremos empezar a tramitar tu crédito solicitado.
+    </p>
+    <button class="finexus-btn btn-simulate-credit" (click)="goToICan()" *ngIf="isCreditProcess">
+        Continuar con mi solicitud
+    </button>
+    <button class="finexus-btn btn-simulate-credit" (click)="goToICan()" *ngIf="!isCreditProcess">
+        ¡Que puedo lograr con mi credito!
+    </button>
+</div>
+
+
+<div class="row" *ngIf="status == 4" style="max-width: 100%;     margin: 0 !important;">
+    <h1 class="title-super-big">
+        Estamos validando tu identidad...
+    </h1>
+
+    <p class="text-info-success">
+        No cierres esta ventana hasta que se complete el proceso de validacion
+    </p>
+
+</div>

@@ -1,0 +1,127 @@
+<div class="container-fluid container-simulator">
+  <div class="row" style="margin-bottom: 1em;">
+    <div class="col-lg-1 col-sm-1">
+      <img
+        src="/assets/back.png"
+        style="cursor: pointer; transform: translateY(-10px) translateX(-14px);"
+        (click)="backPage()"
+      />
+    </div>
+    <div class="col-lg-6 col-sm-10">
+      <h1>Déjanos tus datos y te llamamos</h1>
+      <p>
+        Completa esta información para poder contactarte y ayudarte a cumplir
+        tus sueños sin complicaciones.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 offset-lg-1 col-sm-10 offset-sm-1">
+      <form [formGroup]="formContact">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            id="nombre"
+            placeholder="Nombre"
+            formControlName="nombre"
+          />
+        </div>
+        <div class="form-group">
+          <select
+            type="text"
+            class="form-control"
+            aria-describedby="emailHelp"
+            placeholder="Tipo de identificación"
+            formControlName="tipo_identificacion"
+            name="tipo_identificacion"
+          >
+            >
+            <option value="">Tipo de identificación</option>
+            <option [value]="item.id" *ngFor="let item of typeId">{{
+              item.descripcion
+            }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Número de documento"
+            formControlName="identificacion"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Correo electronico"
+            formControlName="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Numero de telefono"
+            formControlName="telefono"
+          />
+        </div>
+        <div class="col-lg-11 col-sm-11">
+          <h1 style="width: 100%;">
+            ¿En cuánto tiempo quieres que te contactemos?
+          </h1>
+        </div>
+
+        <select
+          class="form-control"
+          formControlName="tiempo"
+          name="tiempo"
+        >
+          >
+          <option value="De 0 a 15 minutos">De 0 a 15 minutos</option>
+          <option value="15 a 30min">15 a 30min</option>
+          <option value="En la próxima hora">En la próxima hora</option>
+          <option value="Durante hoy mismo en horario laboral"
+            >Durante hoy mismo en horario laboral</option
+          >
+        </select>
+
+        <div
+          class="col-md-12"
+          style="display: flex; align-items: center; margin-bottom: 1em; margin-top: 1em;"
+        >
+          <label class="container-check" >
+            <input type="checkbox" [checked]="acceptTerms" (change)="acceptTerms = !acceptTerms"/>
+            <span class="checkmark"></span>
+          </label>
+          <span class="terms-label">
+            He leído y acepto la
+            <a href="">política de tratamiento de datos personales</a>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-lg-7 offset-lg-1 col-sm-10 offset-sm-1 col-buttons-bottom">
+      <div class="row">
+        <div class="col-md-6">
+          <button
+            class="btn principal"
+            (click)="saveContact()"
+            [disabled]="!formContact.valid || !acceptTerms"
+          >
+            Enviar mi info de contacto
+          </button>
+        </div>
+        <!-- <div class="col-md-6">
+          <button class="btn transparent">Ya no quiero cumplir mi sueño</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
